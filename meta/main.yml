@@ -2,6 +2,7 @@
 
 galaxy_info:
 
+  role_name: checkmk
   author: fikipollo
   description: ​installs Checkmk monitoring in CentOS
 
