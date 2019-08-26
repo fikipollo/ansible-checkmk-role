@@ -24,6 +24,9 @@ checkmk_server_dist: el7
 # The name for the site to be created
 checkmk_site_name: monitoring
 
+# Password for the admin user
+checkmk_cmkadmin_password: supersecret
+
 # The URL for the official checkmk repository
 checkmk_repo_url: https://checkmk.de/support/{{ checkmk_server_version }}/check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm
 
