@@ -38,7 +38,7 @@
         name: cmkadmin
         password: "{{ checkmk_cmkadmin_password }}"
       become: true
-      become_user: {{ checkmk_site_name }}
+      become_user: "{{ checkmk_site_name }}"
 
     - name: Restart OMD site
       command: omd restart {{ checkmk_site_name }}
