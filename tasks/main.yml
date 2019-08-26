@@ -1,0 +1,46 @@
+---
+
+- name: Install Checkmk from official repos
+  block:
+
+    - name: "Download check-mk rpm"
+      get_url:
+        url: "{{ checkmk_repo_url }}"
+        dest: /opt/check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm
+
+    - name: "Setting up check-mk repository"
+      yum:
+        name: "/opt/check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm"
+        state: present
+  tags:
+    - install-check-mk-server
+
+
+- name: Configure Checkmk
+  block:
+
+    - name: Check for existing OMD site
+      stat: path=/opt/omd/sites/{{ checkmk_site_name }}
+      register: omd_site
+
+    - name: Create OMD site if not exists
+      command: omd create {{ checkmk_site_name }}
+      when: not (omd_site.stat.isdir is defined and omd_site.stat.isdir)
+
+    - name: install python-passlib for htpasswd
+      yum:
+        name: python-passlib
+        state: present
+
+    - name: Change OMD site admin password
+      htpasswd:
+        path: /omd/sites/{{ checkmk_site_name }}/etc/htpasswd
+        name: cmkadmin
+        password: "{{ vault_cmkadmin_password }}"
+      become: true
+      become_user: {{ checkmk_site_name }}
+
+    - name: Restart OMD site
+      command: omd restart {{ checkmk_site_name }}
+  tags:
+    - install-check-mk-server
