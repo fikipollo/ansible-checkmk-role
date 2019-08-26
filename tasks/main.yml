@@ -36,7 +36,7 @@
       htpasswd:
         path: /omd/sites/{{ checkmk_site_name }}/etc/htpasswd
         name: cmkadmin
-        password: "{{ vault_cmkadmin_password }}"
+        password: "{{ checkmk_cmkadmin_password }}"
       become: true
       become_user: {{ checkmk_site_name }}
 
