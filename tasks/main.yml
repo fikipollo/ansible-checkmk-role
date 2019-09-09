@@ -25,7 +25,7 @@
 
     - name: Create OMD site if not exists
       command: omd create {{ checkmk_site_name }}
-      when: not (omd_site.stat.isdir is defined and omd_site.stat.isdir)
+      when: omd_site.stat.exists|bool == false
 
     - name: install python-passlib for htpasswd
       yum:
