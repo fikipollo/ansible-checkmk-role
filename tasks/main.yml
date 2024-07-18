@@ -19,13 +19,13 @@
         url: "{{ checkmk_repo_url }}"
         dest: "/opt/{{ checkmk_installer_name }}"
 
-    - name: "Setting up check-mk repository"
+    - name: "Setting up check-mk repository (RedHat)"
       yum:
         name: "/opt/{{ checkmk_installer_name }}"
         state: present
       when: ansible_os_family == 'RedHat'
 
-    - name: "Setting up check-mk repository"
+    - name: "Setting up check-mk repository (Debian)"
       apt:
         deb: "/opt/{{ checkmk_installer_name }}"
         state: present
@@ -50,6 +50,13 @@
       yum:
         name: python-passlib
         state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: install python-passlib for htpasswd
+      apt:
+        name: python3-passlib
+        state: present
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
     - name: Change OMD site admin password
       htpasswd:
