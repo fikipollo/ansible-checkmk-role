@@ -1,2 +1,10 @@
 ---
-# vars file for checkmk-role/
+
+# The version for checkmk to install
+checkmk_server_version: 1.6.0p30
+
+# The name for the site to be created
+checkmk_site_name: monitoring
+
+# Password for the admin user
+checkmk_cmkadmin_password: supersecret

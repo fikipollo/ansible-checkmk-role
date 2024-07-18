@@ -1,0 +1,10 @@
+--
+
+# The name for the distribution
+checkmk_server_dist: el7
+
+# The name for the installer
+checkmk_installer_name: check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm
+
+# The URL for the official checkmk repository
+checkmk_repo_url: https://checkmk.de/support/{{ checkmk_server_version }}/{{ checkmk_installer_name }}
