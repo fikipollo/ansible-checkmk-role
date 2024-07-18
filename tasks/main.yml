@@ -27,7 +27,7 @@
 
     - name: "Setting up check-mk repository"
       apt:
-        name: "/opt/{{ checkmk_installer_name }}"
+        deb: "/opt/{{ checkmk_installer_name }}"
         state: present
       when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 

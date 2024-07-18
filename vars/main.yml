@@ -1,7 +1,7 @@
 ---
 
 # The version for checkmk to install
-checkmk_server_version: 1.6.0p30
+checkmk_server_version: 2.2.0p31
 
 # The name for the site to be created
 checkmk_site_name: monitoring
