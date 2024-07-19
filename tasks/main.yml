@@ -1,17 +1,36 @@
 ---
 
+- name: Include OS-specific variables
+  include_vars: "{{ item }}"
+  when: ansible_os_family in ['RedHat', 'Ubuntu', 'Debian']
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "main.yml"
+      paths:
+        - "vars"
+
 - name: Install Checkmk from official repos
   block:
 
-    - name: "Download check-mk rpm"
+    - name: "Download check-mk installer"
       get_url:
         url: "{{ checkmk_repo_url }}"
-        dest: /opt/check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm
+        dest: "/opt/{{ checkmk_installer_name }}"
 
-    - name: "Setting up check-mk repository"
+    - name: "Setting up check-mk repository (RedHat)"
       yum:
-        name: "/opt/check-mk-raw-{{ checkmk_server_version }}-{{ checkmk_server_dist }}-38.x86_64.rpm"
+        name: "/opt/{{ checkmk_installer_name }}"
         state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: "Setting up check-mk repository (Debian)"
+      apt:
+        deb: "/opt/{{ checkmk_installer_name }}"
+        state: present
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+
   tags:
     - install-check-mk-server
 
@@ -31,6 +50,13 @@
       yum:
         name: python-passlib
         state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: install python-passlib for htpasswd
+      apt:
+        name: python3-passlib
+        state: present
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
     - name: Change OMD site admin password
       htpasswd:
