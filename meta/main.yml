@@ -2,7 +2,7 @@
 
 galaxy_info:
 
-  role_name: checkmk-server
+  role_name: checkmk_server
   author: fikipollo
   description: ​installs Checkmk monitoring server in CentOS, Ubuntu and Debian.
 
