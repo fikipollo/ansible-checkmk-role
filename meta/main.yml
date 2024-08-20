@@ -21,6 +21,8 @@ galaxy_info:
       versions:
         - 10.0
 
-  galaxy_tags: []
+  galaxy_tags:
+    - monitoring
+    - checkmk
 
 dependencies: []
